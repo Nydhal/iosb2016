@@ -126,12 +126,12 @@
 
         #resultsMessageContainer {
             position:absolute;
-            width:45%;
+            width:30%;
             height:65%;
-            top:15%;
-            left:45%;
+            top:25%;
+            left:55%;
             background-color: transparent;
-            border-radius:3co2px;
+            /*border-radius:3co2px;*/
             white-space: pre-wrap;
             display:table;
 
@@ -143,11 +143,37 @@
             font-family: Lato, Helvetica, sans-serif;
             font-weight:bold;
             font-size:1.2em;
+
+            /* make div scrollable for tweets */
+            overflow-y:auto;
+        }
+
+        #trendingMessageContainer {
+            position:absolute;
+            width:30%;
+            height:10%;
+            top:12.5%;
+            left:55%;
+            background-color: transparent;
+            /*border-radius:3co2px;*/
+            white-space: pre-wrap;
+            display:table;
+
+            border-width: 2px;
+            border-style: solid;
+            border-color: #7C77C3;
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:1.2em;
+
+
         }
 
         .resultsMetric {
             position:absolute;
-            left:10%;
+            left:20%;
             top:15%;
             font-family: Lato, Helvetica, sans-serif;
             font-weight: bold;
@@ -185,8 +211,12 @@
         <a class="scroll" href="#inputPage"> back 1 </a> <br>
         <a class="scroll" href="#topPostsPage"> forward 1 </a> <br>
 
+        <div id="trendingMessageContainer">
+             <span style="display:table-cell; vertical-align:middle; padding-left:5%; padding-right:5%">Your post is: Trending!</span>
+        </div>
+
         <div id="resultsMessageContainer">
-            <span style="display:table-cell; vertical-align:middle; padding-left:5%; padding-right:5%">Hello, this is your result. congratulations!</span>
+            <span style="display:table-cell; padding-left:5%; padding-right:5%; padding-top:5%">Here are the top Trends:</span>
         </div>
 
         <div class="c100 p25 big dark resultsMetric" id="percent">
@@ -238,6 +268,12 @@
 
 <script>
 
+    // SETUP
+
+    // FIREBASE
+    
+
+    // PAGES
     var pageIDs = ["#inputPage", "#resultsPage", "#topPostsPage", "#dataPage", "#emotionsPage"];
 
    // Smooth scroll
@@ -349,6 +385,10 @@
 
 
 // $("#resultsMessageContainer span").text(message);
+
+
+
+    // Some FIREBASE STUFF
 
 
 </script>

@@ -1,5 +1,9 @@
 // The backend, this will manage the twitter query and the Watson query
 
+
+// Setup Twitter
+
+
 var Twitter = require('twitter');
 
 var client = new Twitter({
@@ -10,6 +14,36 @@ var client = new Twitter({
 });
  
 var params = {screen_name: 'ZacharyFeinn'};
+
+// Firebase Stuff
+
+var Firebase = require("firebase");
+
+var rootRef = "https://sbio2016.firebaseio.com/";
+
+
+
+// upload trending ones to Firebase
+var firebaseTrendingRef = new Firebase(rootRef + "trending");
+
+var trends;
+getTrends();
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Twitter Stuff
+
+
 // client.get('statuses/user_timeline', params, function(error, tweets, response){
 //   if (!error) {
 //     console.log(tweets);
@@ -72,13 +106,14 @@ var params = {screen_name: 'ZacharyFeinn'};
 
 
 // GET TRENDS NEAR LA
-
-client.get('trends/place', {'id': 2442047}, function(error, trends, response) {
-   // console.log(trends);
-   console.log(JSON.stringify(trends[0].trends, null, 2));
-   // console.log(response);  // Raw response object.
-   makeTrendObject(trends[0].trends);
-});
+function getTrends() {
+	client.get('trends/place', {'id': 2442047}, function(error, trends, response) {
+	   // console.log(trends);
+	   console.log(JSON.stringify(trends[0].trends, null, 2));
+	   // console.log(response);  // Raw response object.
+	   makeTrendObject(trends[0].trends);
+	});
+}
 
 function getTweetText() {
 
@@ -121,7 +156,12 @@ function makeTrendObject(trends) {
 
 	for (var ndx in trendObj) {
 		console.log("Trend: ", trendObj[ndx].name, "\nVolume: ", trendObj[ndx].tweet_volume);
+		trends.push(trendObj[ndx]);
 	}
+
+	console.log("\n\n\n YEAH WE DID THE TRENDS \n\n\n\n")
+	// return trendObj;
+	firebaseTrendingRef.set(trendObj);
 
 }
 
@@ -144,3 +184,4 @@ function insertionSortTrends(unsortedList) {
   }
   return unsortedList;
 }
+
