@@ -30,12 +30,26 @@
             padding:0;
         }
 
+        #logo {
+            position:fixed;
+            left: 5%;
+            bottom: 5%;
+            /*width: 15%;*/
+            /*height: calc(0.87 * 15%);*/
+            z-index:9999;
+        }
+
+        /* Remove blue outline from buttons */
+        button:focus {outline:0;}
+
+
 
         /* PAGES (For background color) */
 
         /* INPUT PAGE */
 
         #inputPage {
+            position:relative;
             background-color:#69D2E7;
 
         }
@@ -43,6 +57,7 @@
         /* RESULTS PAGE */
 
         #resultsPage {
+            position:relative;
             /*background-color:rgb(189,21,80);*/
             background-color:#A7DBD8;
         }
@@ -50,6 +65,7 @@
         /* DATA PAGE */
 
         #dataPage {
+            position:relative;
             background-color:#69D2E7;
         }
 
@@ -89,6 +105,37 @@
         }
 
 
+        /* RESULTS PAGE */
+
+
+        #resultsMessageContainer {
+            position:relative;
+            width:40%;
+            height:60%;
+            top:20%;
+            left:30%;
+            background-color: transparent;
+            white-space: pre-wrap;
+            display:table;
+
+            border-width: 2px;
+            border-style: solid;
+            border-color: #7C77C3;
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:1.2em;
+        }
+
+        .resultsMetric {
+            position:relative;
+            left:15%;
+            top:20%;
+
+        }
+
+
 
     </style>
 
@@ -107,6 +154,8 @@
 
         <button id="finishInputButton"> Let's go! </button>
 
+        <img id="logo" src="img/littlemonster.png" >
+
     </div>
 
 
@@ -117,12 +166,16 @@
         <a class="scroll" href="#inputPage"> back 1 </a> <br>
         <a class="scroll" href="#dataPage"> forward 1 </a> <br>
 
-        <div class="c100 p25 big dark" id="percent">
+        <div class="c100 p25 big dark resultsMetric" id="percent">
           <span>25%</span>
           <div class="slice">
             <div class="bar"></div>
             <div class="fill"></div>
           </div>
+        </div>
+
+        <div id="resultsMessageContainer">
+
         </div>
 
 

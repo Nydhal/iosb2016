@@ -244,7 +244,8 @@
   margin: 0 auto;
 }
 .c100.big {
-  font-size: 240px;
+  /*font-size: 240px;*/
+  font-size: 20em;
 }
 .c100.small {
   font-size: 80px;
