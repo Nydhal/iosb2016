@@ -22,17 +22,24 @@ function FKGradeLevel(str){
 
 }
 
-var powerwords = ["Amazing", "big", "bottom line", "breakthrough", "challenge", "compare", "competitive", "compromise",
-"confidential", "daring", "delighted", "direct", "discount", "download", "easy","easily", "edge", "energy", "emerging", "exclusive",
-"expert", "focus", "fortune", "free", "full", "fundamentals", "growth", "guaranteed", "helpful", "high tech", "how to", "huge gift",
-"hurry", "imagination", "immediately", "important", "improved", "innovative", "insider", "interesting", "introducing", "it’s here",
-"just arrived", "last chance", "last minute", "latest", "launch", "lifetime", "limited", "love", "luxury", "new", "now", "opportunities",
-"outstanding", "pioneering", "popular", "powerful", "practical", "profitable", "promising", "professional", "proven", "reduced", 
-"reliable", "rare", "reveal", "reward", "revolutionary", "secrets", "security", "selected", "simple", "special", "spotlight", "strong", 
-"successful", "survival", "technology", "timely", "the truth about", "ultimate", "unconditional", "unique", "unlimited", "unusual", "urgent",
- "useful", "value", """wealth"];
+var powerwords = ["Amazing", "big", "bottom line", "breakthrough", "challenge", "compare", "competitive", "compromise","confidential","daring", "delighted", "direct", "discount", "download", "easy","easily", "edge", "energy", "emerging", "exclusive","expert", "focus", "fortune", "free", "full", "fundamentals", "growth", "guaranteed", "helpful", "high tech", "how to", "huge gift","hurry", "imagination", "immediately", "important", "improved", "innovative", "insider", "interesting", "introducing", "it’s here",
+"just arrived", "last chance", "last minute", "latest", "launch", "lifetime", "limited", "love", "luxury", "new", "now", "opportunities","outstanding", "pioneering", "popular", "powerful", "practical", "profitable", "promising", "professional", "proven", "reduced","reliable", "rare", "reveal", "reward", "revolutionary", "secrets", "security", "selected", "simple", "special", "spotlight","strong","successful", "survival", "technology", "timely", "the truth about", "ultimate", "unconditional", "unique", "unlimited", "unusual", "urgent", "useful", "value", "wealth"];
 
-function PowerLevel(str){
-
-  return WordCount(str);
+function CorrelationLevel(str){
+ var correlation = 0;
+ var wcount = WordCount(str); 
+ var words = str.toLowerCase().split(/\s+/);
+  for (i=0; i<powerwords.length;i++){
+     for (j=0; j<words.length;j++){
+      if (powerwords[i]==words[j]){
+        correlation++;
+      }    
+  } 
+  }
+  
+  return correlation/WordCount(str);
 }
+
+
+
+
