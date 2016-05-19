@@ -1,0 +1,266 @@
+
+<!doctype html>
+<html>
+<head>
+    <title>social media tool</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+    <!-- http://www.cssscript.com/pure-css-circular-percentage-bar/ -->
+    <link rel="stylesheet" href="circle.css">
+    <style type="text/css">
+
+    @import url(https://fonts.googleapis.com/css?family=Lato:300);
+
+    /* some rgb to try */
+
+        body {
+            /*background-color:#ba9b03;*/
+            background-color:#c490de;
+            /*background-color:#f0d8f6;*/
+            /*background-color:#f5ebfa;*/
+            height:100%;
+            width:100%;
+            overflow:hidden;
+            margin:0;
+            padding:0;
+        }
+
+
+        /* PAGES (For background color) */
+
+        /* INPUT PAGE */
+
+        #inputPage {
+            background-color:rgb(73,10,61);
+
+        }
+
+        /* RESULTS PAGE */
+
+        #resultsPage {
+            /*background-color:rgb(189,21,80);*/
+            background-color: rgb(138,155,15);
+        }
+
+        /* DATA PAGE */
+
+        #dataPage {
+            background-color:rgb(248,202,0);
+        }
+
+
+
+
+        /* STYLING FOR OBJECTS ON PAGES */
+
+        /*INPUT PAGE */
+
+        #postInputTextArea {
+            position:relative;
+            width:60%;
+            height:60%;
+            top:5%;
+            left:20%;
+            border-radius:7px;
+            border-color:#7C77C3;
+            border-width:2px;
+            resize: none;
+            background-color:rgba(255,255,255,0.65);
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:1.2em;
+
+        }
+
+        #finishInputButton {
+            position:absolute;
+            top:75%;
+            width:20%;
+            height:10%;
+            left:40%;
+            background-color:blue;
+        }
+
+
+
+    </style>
+
+
+<body>
+
+
+    <!-- JOURNAL ENTRY PAGE -->
+    <div id="inputPage">
+
+        <a class="scroll" href="#dataPage"> back 1 </a> <br>
+        <a class="scroll" href="#resultsPage"> forward </a>
+
+        <br> <br>
+        <textarea id="postInputTextArea"></textarea>
+
+        <button id="finishInputButton"> Let's go! </button>
+
+    </div>
+
+
+
+    <!-- ENTRY RESULTS -->
+    <div id="resultsPage">
+
+        <a class="scroll" href="#inputPage"> back 1 </a> <br>
+        <a class="scroll" href="#dataPage"> forward 1 </a> <br>
+
+        <div class="c100 p25 big dark" id="percent">
+          <span>25%</span>
+          <div class="slice">
+            <div class="bar"></div>
+            <div class="fill"></div>
+          </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <div id="dataPage">
+
+        <a class="scroll" href="#resultsPage"> back 1 </a> <br>
+        <a class="scroll" href="#inputPage"> forward 1 </a>
+
+    </div>
+
+
+
+
+<script src="jquery.min.js"></script>
+<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+<script src="spin.min.js"></script>
+<!-- <script src="./bundle.js"></script> -->
+
+<script>
+
+    var pageIDs = ["#inputPage", "#resultsPage", "#dataPage"];
+
+   // Smooth scroll
+    jQuery(document).ready(function($) {
+        $(".scroll").click(function(event){     
+            event.preventDefault();
+            $('html,body').animate({scrollTop:$(this.hash).offset().top}, 500);
+        });
+    });
+
+
+    // Page setup
+    function resizeHelper() {
+        var winheight = $(window).height();
+        var winwidth = $(window).width();
+
+        for (var i = 0; i < pageIDs.length; i++) {
+            $(pageIDs[i]).height(winheight);
+            $(pageIDs[i]).width(winwidth);
+        }
+    }
+
+    $(window).on('resize', function(){
+        resizeHelper();
+    }).trigger('resize');
+
+
+    window.onload = load();
+
+    function load() {
+        console.log("loaded");
+        resizeHelper();
+        window.scrollTo(0,0);
+    }
+
+
+
+
+
+    // INPUT PAGE
+
+    // Handle tabbing in text area
+    // Note this isn't great for blind folks
+    // http://stackoverflow.com/questions/6637341/use-tab-to-indent-in-textarea
+    $(document).delegate('.textbox', 'keydown', function(e) {
+      var keyCode = e.keyCode || e.which;
+
+      if (keyCode == 9) {
+        e.preventDefault();
+        var start = $(this).get(0).selectionStart;
+        var end = $(this).get(0).selectionEnd;
+
+        // set textarea value to: text before caret + tab + text after caret
+        $(this).val($(this).val().substring(0, start)
+                    + "\t"
+                    + $(this).val().substring(end));
+
+        // put caret at right position again
+        $(this).get(0).selectionStart =
+        $(this).get(0).selectionEnd = start + 1;
+      }
+    });
+
+    $( "#finishInputButton" ).click(function() {
+
+        // currPostFirebase = new Firebase(firebaseRoot + "/" + n)
+        // currPostFirebase.set({"entryPath":n, "entryText": currPostText})
+
+        // $("#overlay").css({'background-color':'transparent'});
+        // $("#overlay").show();
+        // setTimeout("endLoadingToNewScreen()", (3000));
+        showResults();
+
+    });
+
+    function showResults() {
+        // // Get the data and parse it
+
+
+        // $('#overlay').fadeOut( 400 );
+        // var keywordsFound = checkForKeywords();
+
+        // getCurrentPostData();
+
+        // if (!keywordsFound) {
+        //     setTimeout("moveToResultsScreen()", 400);
+        // }
+
+        $('html,body').animate({scrollTop:$("#resultsPage").offset().top}, 500);
+    
+    }
+
+    function moveToResultsScreen() {
+        // // set bar graph
+        // setBarHeightsForTones(currPostData);
+        // setResponseMessage();
+        // getInsightsData();
+        // // set the message
+        // getLastFivePosts();
+        // console.log("LAST FIVE POSTS");
+        // console.log(lastFiveEntries);
+        // generateLineGraph("Anger");
+
+        // $('html,body').animate({scrollTop:$("#entryStatsPage").offset().top}, 500);
+        // console.log(currPostData);
+
+        // setTimeout("setPersonalityBarHeights()", 1000);
+    }
+
+
+
+</script>
+
+</body>
+</html>
