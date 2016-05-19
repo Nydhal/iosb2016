@@ -125,10 +125,11 @@
 
 
         #resultsMessageContainer {
-            position:absolute;
+            position:relative;
             width:45%;
             height:65%;
             top:15%;
+            bottom: 5%;
             left:45%;
             background-color: transparent;
             border-radius:3co2px;
@@ -143,6 +144,56 @@
             font-family: Lato, Helvetica, sans-serif;
             font-weight:bold;
             font-size:1.2em;
+        }
+
+        #tweets {
+
+            position:relative;
+            width:70%;
+            height:65%;
+            top:15%;
+            bottom: 15%;
+            right:15%;
+            left:15%;
+            line-height: 200%;
+            margin-top: 32px;
+            background-color: transparent;
+            
+            white-space: pre-wrap;
+
+            display:table;
+
+            border-width: 2px;
+            border-style: solid;
+            border-color: #7C77C3;
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:1.2em;
+        }
+
+        #TitleText {
+            position:absolute;
+            width:70%;
+            height:15%;
+            top:5%;
+            left:15%;
+            right:15%;
+
+            background-color: transparent;
+            
+            white-space: pre-wrap;
+            display:table;
+
+            border-width: 2px;
+            border-style: solid;
+            border-color: #7C77C3;
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:2.4em;
         }
 
         .resultsMetric {
@@ -162,7 +213,7 @@
 <body>
 
 
-    <!-- JOURNAL ENTRY PAGE -->
+    <!-- SUBMISSION ENTRY PAGE -->
     <div id="inputPage">
 
         <a class="scroll" href="#dataPage"> back 1 </a> <br>
@@ -209,6 +260,16 @@
 
         <a class="scroll" href="#resultsPage"> back 1 </a> <br>
         <a class="scroll" href="#dataPage"> forward 1 </a>
+
+        <div id="TitleText">
+            <span style="display:table-cell; vertical-align:middle; text-align:center; padding-left:5%; padding-right:5%">Top tweets in your topic!</span>
+        </div>
+
+        <div id="tweets">
+        <span style=" vertical-align:center; padding-left:5%; padding-bottom:5%; padding-right:5%">"Tweet 1 ...."</span>
+    </br>
+        <span style=" vertical-align:center; padding-left:5%; padding-bottom:5%; padding-right:5%">"Tweet 2 ...."</span>
+        </div>
 
     </div>
 
