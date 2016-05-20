@@ -55,7 +55,7 @@ function CorrelationLevel(str){
   //     }    
   // } 
     for (i=0; i < powerwords.length; i++) {
-      if (str.indexOf(powerwords[i]) > -1) {
+      if (str.toLowerCase().indexOf(powerwords[i].toLowerCase()) > -1) {
         correlation++;
       }
     }

@@ -1,5 +1,21 @@
 // The backend, this will manage the twitter query and the Watson query
 
+// Setup Watson
+
+var watson = require('watson-developer-cloud');
+
+
+
+
+
+// set up tone analyzer
+var tone_analyzer = watson.tone_analyzer({
+  username: '7c6491aa-1793-4e7c-b58d-36a8792382d7',
+  password: 'Ye0QS7OXlG3P',
+  version: 'v3-beta',
+  version_date: '2016-02-11'
+});
+
 
 // Setup Twitter
 
@@ -20,6 +36,9 @@ var params = {screen_name: 'ZacharyFeinn'};
 var Firebase = require("firebase");
 
 var rootRef = "https://sbio2016.firebaseio.com/";
+
+var currPostRef = rootRef + "currPost/text";
+var currPostFirebase = new Firebase(currPostRef);
 
 
 
@@ -184,4 +203,35 @@ function insertionSortTrends(unsortedList) {
   }
   return unsortedList;
 }
+
+
+
+// Get new posts and tone analyze
+
+currPostFirebase.on("value", function(snapshot, prevChildKey) {
+    var newPost = snapshot.val();
+
+    console.log("\n\n\n\n\n\n\n");
+    console.log(newPost);
+
+    var tempFirebaseRef = new Firebase(rootRef + "/" + "curr_post_tone");
+
+    // tempFirebaseRef.once("value", function(snapshot) {
+
+    //     console.log(JSON.stringify(snapshot.val(), null, 2));
+
+    // });
+
+    tone_analyzer.tone({ text: newPost },
+        function(err, tone) {
+            if (err)
+                console.log(err);
+            else {
+                console.log(JSON.stringify(tone, null, 2));
+                tempFirebaseRef.update({"tone":tone});
+            }
+    });
+});
+
+
 

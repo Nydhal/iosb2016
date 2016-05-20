@@ -569,7 +569,9 @@
     var rootRef = "https://sbio2016.firebaseio.com/";
     var trendsRef = rootRef + "trending";
     var trendsFirebase = new Firebase(trendsRef);
-    
+    var currPostRef = rootRef + "currPost/text";
+    var currPostFirebase = new Firebase(currPostRef);
+    var currPostToneFirebase = new Firebase(rootRef + "curr_post_tone")
 
     // PAGES
     var pageIDs = ["#inputPage", "#resultsPage", "#topPostsPage", "#dataPage", "#emotionsPage"];
@@ -659,6 +661,7 @@
     function showResults() {
         // Get the data and parse it
         currInput = $("#postInputTextArea").val();
+        currPostFirebase.set(currInput);
         // alert(currInput);
 
         // $('#overlay').fadeOut( 400 );
@@ -671,8 +674,8 @@
         // }
         logoWiggle();
 
-
-        setTimeout("moveToResultsPage()", 860);
+        // setTimeout("")
+        setTimeout("moveToResultsPage()", 1200);
     
     }
 
@@ -686,10 +689,16 @@
         }
         coefficients = returnCoefficients(currInput);
         checkForLinksAndEmoji();
-        setViralityScore();
         setBarValues();
         setResultMessages();
+        getCurrentPostData();
+        setTimeout("setViralityScore()", 800);
+        setTimeout("finishMove()", 800);
 
+        
+    }
+
+    function finishMove() {
         $('html,body').animate({scrollTop:$("#resultsPage").offset().top}, 500);
     }
 
@@ -700,6 +709,12 @@
         setTimeout("smoothRotateLeft(0, 2)", 480);
         setTimeout("smoothRotateLeft(0, 2)", 640);
         setTimeout("smoothRotateRight(0, 2)", 700);
+        setTimeout("smoothRotateRight(0, 2)", 860);
+        setTimeout("smoothRotateLeft(0, 2)", 1020);
+        setTimeout("smoothRotateLeft(0, 2)", 1180);
+        setTimeout("smoothRotateRight(0, 2)", 1340);
+        setTimeout("smoothRotateRight(0, 2)", 860);
+        setTimeout("smoothRotateLeft(0, 2)", 1020);
     }
 
     function smoothRotateLeft(deg, amt) {
@@ -815,17 +830,25 @@
     }
 
     function setViralityScore() {
+        // alert(viralityScore);
         if (isTrending) {
             viralityScore += 20;
         }
         // console.log("\n\n\n\n\n" + coefficients + "\n\n\n\n\n\n");
         viralityScore += coefficients["FKGradeScore"];
+        // alert(viralityScore);
         viralityScore += coefficients["PowerWordsScore"];
+        // alert(viralityScore);
         viralityScore += coefficients["EmoticonsAndLinksScore"];
+        // alert(viralityScore);
+        viralityScore += parseFloat(coefficients["EmotionScore"].toFixed(2));
+        // alert(viralityScore);
+        var rounded = Math.round(viralityScore);
+        // alert(coefficients["EmotionScore"].toFixed(2))
+        // alert(viralityScore);
 
-
-        $("#percent").addClass("p" + viralityScore);
-        $("#viralityPercentText").text(viralityScore + "%")
+        $("#percent").addClass("p" + rounded);
+        $("#viralityPercentText").text(viralityScore.toFixed(2) + "%")
     }
 
     function setBarValues() {
@@ -1110,6 +1133,108 @@
       }
       
     })(jQuery);
+
+
+
+
+    // Data processing for current post
+    var currPostEmotions = {};
+    var currPostWriting = {};
+    var currPostSocial = {};
+    var currPostEmotionData;
+
+    function calculateEmotionalWeight() {
+        var keysSorted = Object.keys(currPostEmotions).sort(function(a,b){return currPostEmotions[a]-currPostEmotions[b]});
+        console.log(keysSorted);
+
+        var mean = 0;
+        for (var i = 0; i < 4; i++) {
+            mean += currPostEmotions[keysSorted[i]];
+        }
+        mean = mean / 4;
+        var diff = currPostEmotions[keysSorted[keysSorted.length - 1]] - mean;
+        var diffSquared = Math.sqrt(diff);
+        console.log("MEAN: ",mean);
+        console.log("DIFF: ", diff);
+        console.log("DIFF SQUARED: ", diffSquared);
+        coefficients["EmotionScore"] = diffSquared * 20;
+
+        
+    }
+
+    function getCurrentPostData() {
+        currPostToneFirebase.once("value", function(snapshot) {
+            var postContents = snapshot.val();
+            console.log(postContents);
+            // var postTones = postContents.tone.document_tone.tone_categories[0].tones;
+            // console.log(postContents.tone);
+            // console.log(postContents.tone.document_tone);
+            // console.log(postContents.tone.document_tone.tone_categories[0]);
+            
+            // currPostAnger = postTones[0].score;
+            // console.log("THE ANGER IS " + currPostAnger.toString());
+            // currPostData = processTonesIntoData(postTones);
+            var postData = postContents.tone.document_tone;
+            currPostEmotions = processTonesIntoData(postData.tone_categories[0].tones);
+            currPostData = processPostData(postData);
+            console.log(currPostData)
+
+            calculateEmotionalWeight();
+        });
+    }
+
+    function processTonesIntoData(tones) {
+        // Will do it in sorted order
+
+        var returnDict = {"Anger":0.0, "Disgust":0.0, "Fear":0.0, "Joy":0.0, "Sadness":0.0};
+        returnDict.Anger = tones[0].score;
+        returnDict.Disgust = tones[1].score;
+        returnDict.Fear = tones[2].score;
+        returnDict.Joy = tones[3].score;
+        returnDict.Sadness = tones[4].score;
+        return returnDict;
+    }
+
+    function processPostData(data) {
+
+        var emotional_tones = data.tone_categories[0].tones;
+        var writing_tones = data.tone_categories[1].tones;
+        var social_tones = data.tone_categories[2].tones;
+
+        var returnDict = {};
+
+        // emotional tones
+        returnDict["Anger"] = emotional_tones[0].score;
+        returnDict["Disgust"] = emotional_tones[1].score;
+        returnDict["Fear"] = emotional_tones[2].score;
+        returnDict["Joy"] = emotional_tones[3].score;
+        returnDict["Sadness"] = emotional_tones[4].score;
+
+        // writing tones
+        returnDict["Analytical"] = writing_tones[0].score;
+        returnDict["Confident"] = writing_tones[1].score;
+        returnDict["Tentative"] = writing_tones[2].score;
+
+        currPostWriting["Analytical"] = writing_tones[0].score;
+        currPostWriting["Confident"] = writing_tones[1].score;
+        currPostWriting["Tentative"] = writing_tones[2].score;
+
+        // social tones
+        returnDict["Openness"] = social_tones[0].score;
+        returnDict["Conscientiousness"] = social_tones[1].score;
+        returnDict["Extraversion"] = social_tones[2].score;
+        returnDict["Agreeableness"] = social_tones[3].score;
+        returnDict["EmotionalRange"] = social_tones[4].score;
+
+        currPostSocial["Openness"] = social_tones[0].score;
+        currPostSocial["Conscientiousness"] = social_tones[1].score;
+        currPostSocial["Extraversion"] = social_tones[2].score;
+        currPostSocial["Agreeableness"] = social_tones[3].score;
+        currPostSocial["EmotionalRange"] = social_tones[4].score;
+
+        return returnDict;
+
+    }
 
 </script>
 
