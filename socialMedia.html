@@ -34,7 +34,7 @@
             position:fixed;
             left: 5%;
             bottom: 5%;
-            opacity: 0.9;
+            /*opacity: 0.9;*/
             /*width: 15%;*/
             /*height: calc(0.87 * 15%);*/
             z-index:9999;
@@ -279,7 +279,7 @@
         <a class="scroll" href="#topPostsPage"> forward 1 </a> <br>
 
         <div id="trendingMessageContainer">
-             <span style="display:table-cell; vertical-align:middle; padding-left:5%; padding-right:5%">Your post is: Trending!</span>
+             <span style="display:table-cell; vertical-align:middle; padding-left:5%; padding-right:5%" id="isTrendingText"></span>
         </div>
 
         <div id="resultsMessageContainer">
@@ -288,8 +288,8 @@
             <ul id="trendsList"></ul>
         </div>
 
-        <div class="c100 p25 big dark resultsMetric" id="percent">
-          <span>25%</span>
+        <div class="c100 big dark resultsMetric" id="percent">
+          <span id="viralityPercentText">25%</span>
           <div class="slice">
             <div class="bar"></div>
             <div class="fill"></div>
@@ -344,6 +344,7 @@
 <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 <script src="spin.min.js"></script>
 <script src="jquery.rotate.1-1.js"></script>
+<script src="features.js"></script>
 <!-- <script src="./bundle.js"></script> -->
 
 <script>
@@ -361,6 +362,9 @@
 
     // VARIABLES
     var currInput = "";
+    var isTrending = false;
+    var coefficients = {};
+    var viralityScore = 0;
 
    // Smooth scroll
     jQuery(document).ready(function($) {
@@ -456,6 +460,15 @@
     }
 
     function moveToResultsPage() {
+        if (checkForTrends()) {
+            $("#isTrendingText").html("Your post is: <span style=\"color:green; font-weight:bold;\"> trending! </span>");
+            isTrending = true;
+        } else {
+            $("#isTrendingText").html("Your post is: <span style=\"color:red; font-weight:bold;\"> not trending. </span>");
+            isTrending = false;
+        }
+        coefficients = returnCoefficients(currInput);
+        setViralityScore();
         $('html,body').animate({scrollTop:$("#resultsPage").offset().top}, 500);
     }
 
@@ -509,6 +522,7 @@
 
 
     // Some FIREBASE STUFF
+    var trendsAry = [];
     setTimeout("getTrends()", 1000);
     function getTrends() {
         trendsFirebase.once("value", function(snapshot) {
@@ -516,14 +530,51 @@
             var trends = snapshot.val();
             for (var ndx in trends) {
                 var trend = trends[ndx].name;
-                var volume = trends[ndx].tweet_volume;
+                if (trends[ndx].tweet_volume != undefined) {
+                   var volume = trends[ndx].tweet_volume;
+                }
+                else {
+                    var volume = "< 10000";
+                }
                 var link = trends[ndx].url
                 var str = "Trend: \"" + "<a target='blank' href='" + link + "'>" + trend + "</a>"+ "\"\nTweet volume: " + volume;
                 $("#trendsList").append("<li>" + str+"</li>" + "<br>");
-
+                trendsAry.push(trend);
             }
         });
     }
+
+    //check for trends in the post
+    function checkForTrends() {
+        var currPost = currInput.toLowerCase();
+        var currTrend = "";
+        for (var i = 0; i < trendsAry.length; i++) {
+            if ((trendsAry[i].charAt(0) == "#") || (trendsAry[i].charAt(0) == "@")) {
+                // console.log("trend: ",trendsAry[i], " it was #")
+                currTrend = trendsAry[i].substring(1).toLowerCase();
+            }
+            else {
+                currTrend = trendsAry[i].toLowerCase();
+            }
+            if (currPost.indexOf(currTrend) > -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function setViralityScore() {
+        if (isTrending) {
+            viralityScore += 20;
+        }
+        // console.log("\n\n\n\n\n" + coefficients + "\n\n\n\n\n\n");
+        viralityScore += coefficients["FKGradeScore"];
+        viralityScore += coefficients["PowerWordsScore"];
+
+        $("#percent").addClass("p" + viralityScore);
+        $("#viralityPercentText").text(viralityScore + "%")
+    }
+
 
 
 </script>

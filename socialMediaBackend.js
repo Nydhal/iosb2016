@@ -150,9 +150,9 @@ function makeTrendObject(trends) {
 	trendObj = insertionSortTrends(trendObj);
 
 	trendObj.reverse();
-	// for (var ndx in nullTrends) {
-	// 	trendObj.push(nullTrends[ndx]);
-	// }
+	for (var ndx in nullTrends) {
+		trendObj.push(nullTrends[ndx]);
+	}
 
 	for (var ndx in trendObj) {
 		console.log("Trend: ", trendObj[ndx].name, "\nVolume: ", trendObj[ndx].tweet_volume);

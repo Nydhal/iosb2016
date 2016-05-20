@@ -1,3 +1,5 @@
+var coefficients = {};
+
 function WordCount(str) {
   return str.split(/\s+/).length;
 }
@@ -22,6 +24,23 @@ function FKGradeLevel(str){
 
 }
 
+//
+function FKCoeffSet(str) {
+  var level = FKGradeLevel(str);
+  if (level < 30) {
+    coefficients["FKGradeLevel"] = 33;
+    coefficients["FKGradeScore"] = 5;
+  }
+  else if (level < 50) {
+    coefficients["FKGradeLevel"] = 100;
+    coefficients["FKGradeScore"] = 15;
+  }
+  else {
+    coefficients["FKGradeLevel"] = 66;
+    coefficients["FKGradeScore"] = 10;
+  }
+}
+
 var powerwords = ["Amazing", "big", "bottom line", "breakthrough", "challenge", "compare", "competitive", "compromise","confidential","daring", "delighted", "direct", "discount", "download", "easy","easily", "edge", "energy", "emerging", "exclusive","expert", "focus", "fortune", "free", "full", "fundamentals", "growth", "guaranteed", "helpful", "high tech", "how to", "huge gift","hurry", "imagination", "immediately", "important", "improved", "innovative", "insider", "interesting", "introducing", "it’s here",
 "just arrived", "last chance", "last minute", "latest", "launch", "lifetime", "limited", "love", "luxury", "new", "now", "opportunities","outstanding", "pioneering", "popular", "powerful", "practical", "profitable", "promising", "professional", "proven", "reduced","reliable", "rare", "reveal", "reward", "revolutionary", "secrets", "security", "selected", "simple", "special", "spotlight","strong","successful", "survival", "technology", "timely", "the truth about", "ultimate", "unconditional", "unique", "unlimited", "unusual", "urgent", "useful", "value", "wealth"];
 
@@ -37,7 +56,26 @@ function CorrelationLevel(str){
   } 
   }
   
-  return correlation/WordCount(str);
+  var score;
+  if (correlation <= 0) {
+    coefficients["PowerWordsLevel"] = 0;
+    coefficients["PowerWordsScore"] = 0;
+  }
+  else if (correlation == 1) {
+    coefficients["PowerWordsLevel"] = 50;
+    coefficients["PowerWordsScore"] = 10;
+  }
+  else {
+    coefficients["PowerWordsLevel"] = 100;
+    coefficients["PowerWordsScore"] = 20;
+  }
+
+}
+
+function returnCoefficients(input) {
+  CorrelationLevel(input);
+  FKCoeffSet(input);
+  return coefficients;
 }
 
 
