@@ -224,6 +224,54 @@
             font-size:1.2em;
         }
 
+
+        /* BAR GRAPH FOR ONE PAGE */
+
+        #leftpart {
+
+            position:absolute;
+            width:30%;
+            height:65%;
+            margin-top:2%;
+            margin-bottom: 5%;
+            margin-right:5%;
+            margin-left:20%;
+
+            background-color: transparent;
+
+            border-width: 2px;
+            border-style: solid;
+            border-color: rgba(255,255,255,0.1);
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:1.2em;
+        }
+
+
+        #rightpart {
+
+            position:absolute;
+            width:30%;
+            height:65%;
+            margin-top:2%;
+            margin-bottom:5%;
+            margin-right:5%;
+            margin-left:60%;
+
+            background-color: transparent;
+
+            border-width: 2px;
+            border-style: solid;
+            border-color: rgba(255,255,255,0.1);
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:1.2em;
+        }
+
         #TitleText {
             position:absolute;
             width:70%;
@@ -245,6 +293,30 @@
             font-family: Lato, Helvetica, sans-serif;
             font-weight:bold;
             font-size:2.4em;
+        }
+
+        .bars{
+
+            position:relative;
+            width:90%;
+            height:10%;
+            margin-top: 4%;
+            margin-bottom: 4%;
+            margin-left: 2%; 
+            border-width: 2px;
+            border-color:rgba(124,119,195,0.8);
+            border-style: solid;
+
+
+        }
+
+        .inneritem{
+
+            background-color: #7c77c3;
+            height:100%;
+            width:50%;
+            left:0%;
+
         }
 
 
@@ -276,7 +348,7 @@
     <div id="resultsPage">
 
         <a class="scroll" href="#inputPage"> back 1 </a> <br>
-        <a class="scroll" href="#topPostsPage"> forward 1 </a> <br>
+        <a class="scroll" href="#dataPage"> forward 1 </a> <br>
 
         <div id="trendingMessageContainer">
              <span style="display:table-cell; vertical-align:middle; padding-left:5%; padding-right:5%" id="isTrendingText"></span>
@@ -303,11 +375,71 @@
 
 
 
+    <div id="dataPage">
+
+        <a class="scroll" href="#resultsPage"> back 1 </a> <br>
+        <a class="scroll" href="#emotionsPage"> forward 1 </a>
+
+
+        <div id="leftpart">
+            <span style="display:table-row; vertical-align:middle; margin-left:20%; margin-top:20%, margin-bottom:20%">Readability:</span>
+            <div class= "bars" id="bar1">
+                <div class="inneritem"></div>
+            </div>
+
+            <span style="display:table-row; vertical-align:middle; margin-left:20%; margin-top:20%; margin-bottom:20%">Power Words:</span>
+            <div class= "bars" id="bar2">
+                <div class="inneritem"></div>
+            </div>
+
+            <span style="display:table-row; vertical-align:middle; margin-left:20%; margin-top:20%; margin-bottom:20%">Link:</span>
+            <div class= "bars" id="bar2">
+                <div class="inneritem"></div>
+            </div>
+
+        </div>
+        <div id="rightpart">
+
+
+            <div style="position:static; height:20%;">
+                <span style=" position:relative;">Suggestion1</span>
+            </div>
+            <br></br>
+
+            <div style="position:static;height:20%;">
+                <span style=" position:relative;">Suggestion2</span>
+            </div>
+
+            <br></br>
+            <div style="position:static;height:20%;">
+                <span style=" position:relative;">Suggestion3</span>
+            </div>
+            <br></br>
+
+
+
+                
+        </div>
+
+    </div>
+
+
+    <div id="emotionsPage">
+
+        <a class="scroll" href="#dataPage"> back 1 </a> <br>
+        <a class="scroll" href="#topPostsPage"> forward 1 </a>
+
+    </div>
+
+
+
+
+
 
     <div id="topPostsPage">
 
-        <a class="scroll" href="#resultsPage"> back 1 </a> <br>
-        <a class="scroll" href="#dataPage"> forward 1 </a>
+        <a class="scroll" href="#emotionsPage"> back 1 </a> <br>
+        <a class="scroll" href="#inputPage"> forward 1 </a>
 
         <div id="TitleText">
             <span style="display:table-cell; vertical-align:middle; text-align:center; padding-left:5%; padding-right:5%">Top tweets in your topic!</span>
@@ -321,20 +453,6 @@
 
     </div>
 
-    <div id="dataPage">
-
-        <a class="scroll" href="#topPostsPage"> back 1 </a> <br>
-        <a class="scroll" href="#emotionsPage"> forward 1 </a>
-
-    </div>
-
-
-    <div id="emotionsPage">
-
-        <a class="scroll" href="#dataPage"> back 1 </a> <br>
-        <a class="scroll" href="#inputPage"> forward 1 </a>
-
-    </div>
 
 
 
