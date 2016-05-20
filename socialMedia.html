@@ -383,18 +383,18 @@
 
         <div id="leftpart">
             <span style="display:table-row; vertical-align:middle; margin-left:20%; margin-top:20%, margin-bottom:20%">Readability:</span>
-            <div class= "bars" id="bar1">
-                <div class="inneritem"></div>
+            <div class= "bars">
+                <div class="inneritem" id="readabilityBar"></div>
             </div>
 
-            <span style="display:table-row; vertical-align:middle; margin-left:20%; margin-top:20%; margin-bottom:20%">Power Words:</span>
-            <div class= "bars" id="bar2">
-                <div class="inneritem"></div>
+            <span style="display:table-row; vertical-align:middle; margin-left:20%; margin-top:20%; margin-bottom:20%">Impactful Words:</span>
+            <div class= "bars" >
+                <div class="inneritem" id="powerWordsBar"></div>
             </div>
 
-            <span style="display:table-row; vertical-align:middle; margin-left:20%; margin-top:20%; margin-bottom:20%">Link:</span>
-            <div class= "bars" id="bar2">
-                <div class="inneritem"></div>
+            <span style="display:table-row; vertical-align:middle; margin-left:20%; margin-top:20%; margin-bottom:20%">Links, Emoticons, and Punctuation:</span>
+            <div class= "bars" >
+                <div class="inneritem" id="emoticonsAndLinksBar"></div>
             </div>
 
         </div>
@@ -402,12 +402,12 @@
 
 
             <div style="position:static; height:20%;">
-                <span style=" position:relative;">Suggestion1</span>
+                <span style=" position:relative;" id="readabilityResult">Suggestion1</span>
             </div>
             <br></br>
 
             <div style="position:static;height:20%;">
-                <span style=" position:relative;">Suggestion2</span>
+                <span style=" position:relative;" id="powerWordsResult">Suggestion2</span>
             </div>
 
             <br></br>
@@ -463,6 +463,7 @@
 <script src="spin.min.js"></script>
 <script src="jquery.rotate.1-1.js"></script>
 <script src="features.js"></script>
+<script src="emojis.js"></script>
 <!-- <script src="./bundle.js"></script> -->
 
 <script>
@@ -483,6 +484,9 @@
     var isTrending = false;
     var coefficients = {};
     var viralityScore = 0;
+    var emoticons = splitEmoticonsIntoArrayOfStrings();
+    var containsEmoticons = false;
+    var containsLinks = false;
 
    // Smooth scroll
     jQuery(document).ready(function($) {
@@ -586,7 +590,11 @@
             isTrending = false;
         }
         coefficients = returnCoefficients(currInput);
+        checkForLinksAndEmoji();
         setViralityScore();
+        setBarValues();
+        setResultMessages();
+
         $('html,body').animate({scrollTop:$("#resultsPage").offset().top}, 500);
     }
 
@@ -681,6 +689,36 @@
         return false;
     }
 
+
+
+    function checkForLinksAndEmoji() {
+        for (var i = 0; i < emoticons.length; i++) {
+            if (currInput.indexOf(emoticons[i]) > -1) {
+                containsEmoticons = true;
+            }
+        }
+        if (containsEmoticons) {
+            coefficients["EmoticonsAndLinksScore"] = 5;
+            coefficients["EmoticonsAndLinksLevel"] = 33;
+        }
+        else {
+            coefficients["EmoticonsAndLinksScore"] = 0;
+            coefficients["EmoticonsAndLinksLevel"] = 0;
+        }
+
+        if (new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?").test(currInput)) {
+            // alert("url inside");
+            coefficients["EmoticonsAndLinksScore"] += 10;
+            coefficients["EmoticonsAndLinksLevel"] += 67;
+            containsLinks = true;
+        }
+        else {
+            // do nothing
+        }
+
+
+    }
+
     function setViralityScore() {
         if (isTrending) {
             viralityScore += 20;
@@ -688,9 +726,71 @@
         // console.log("\n\n\n\n\n" + coefficients + "\n\n\n\n\n\n");
         viralityScore += coefficients["FKGradeScore"];
         viralityScore += coefficients["PowerWordsScore"];
+        viralityScore += coefficients["EmoticonsAndLinksScore"];
+
 
         $("#percent").addClass("p" + viralityScore);
         $("#viralityPercentText").text(viralityScore + "%")
+    }
+
+    function setBarValues() {
+        $("#readabilityBar").css("width",coefficients["FKGradeLevel"].toString() + "%");
+        $("#powerWordsBar").css("width",coefficients["PowerWordsLevel"].toString() + "%");
+        $("#emoticonsAndLinksBar").css("width",coefficients["EmoticonsAndLinksLevel"].toString() + "%");
+    }
+
+    function setResultMessages() {
+        setReadabilityMessage();
+        setPowerWordsMessage();
+    }
+
+    function setReadabilityMessage() {
+        if (coefficients.FKGradeScore == 5) {
+            var result = "Your post is hard to read.";
+            var suggestion = "Try using simpler words!";
+        }
+        else if (coefficients.FKGradeScore == 10) {
+            var result = "Your post is a bit simple.";
+            var suggestion = "Try adding some descriptive words!";
+        }
+        else if (coefficients.FKGradeScore == 15) {
+            var result = "Your post is easy to read.";
+            var suggestion = "Great job!";
+        }
+        var str = result.concat("<br><br>" + suggestion);
+        $("#readabilityResult").html(str);
+    }
+
+    function setPowerWordsMessage() {
+        var powerwords = getRandomPowerWords();
+        if (coefficients.PowerWordsScore == 0) {
+            var result = "Your post needs more impactful words.";
+            var suggestion = "Try using some of these: ";
+            suggestion = suggestion.concat(powerwords[0]);
+            for (var i = 1; i < powerwords.length; i++) {
+                suggestion = suggestion.concat(", " + powerwords[i]);
+            }
+            suggestion = suggestion.concat("!")
+        }
+        else if (coefficients.PowerWordsScore == 10) {
+            var result = "Your post has one impactful word, but it could be better!";
+            var suggestion = "Try using some of these: ";
+            suggestion = suggestion.concat(powerwords[0]);
+            for (var i = 1; i < powerwords.length; i++) {
+                suggestion = suggestion.concat(", " + powerwords[i]);
+            }
+            suggestion = suggestion.concat("!")
+        }
+        else if (coefficients.PowerWordsScore == 20) {
+            var result = "Your post has plenty of impactful words!";
+            var suggestion = "You rock!";
+        }
+        var str = result.concat("<br><br>" + suggestion);
+        $("#powerWordsResult").html(str);
+    }
+
+    function setLinksAndEmoticonsMessage() {
+
     }
 
 

@@ -48,13 +48,17 @@ function CorrelationLevel(str){
  var correlation = 0;
  var wcount = WordCount(str); 
  var words = str.toLowerCase().split(/\s+/);
-  for (i=0; i<powerwords.length;i++){
-     for (j=0; j<words.length;j++){
-      if (powerwords[i]==words[j]){
+  // for (i=0; i<powerwords.length;i++){
+  //    for (j=0; j<words.length;j++){
+  //     if (powerwords[i]==words[j]){
+  //       correlation++;
+  //     }    
+  // } 
+    for (i=0; i < powerwords.length; i++) {
+      if (str.indexOf(powerwords[i]) > -1) {
         correlation++;
-      }    
-  } 
-  }
+      }
+    }
   
   var score;
   if (correlation <= 0) {
@@ -69,6 +73,23 @@ function CorrelationLevel(str){
     coefficients["PowerWordsLevel"] = 100;
     coefficients["PowerWordsScore"] = 20;
   }
+
+}
+
+function getRandomPowerWords() {
+  var words = [];
+  for (var i = 0; i < 5; i++) {
+    var ndx = getRandomInt(0, powerwords.length);
+    words.push(powerwords[ndx]);
+  }
+  return words;
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function memeLevel(str) {
 
 }
 
