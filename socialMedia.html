@@ -51,7 +51,7 @@
 
         #inputPage {
             position:relative;
-            background-color:#69D2E7;
+            background-color:#D0E1D4;
 
         }
 
@@ -60,28 +60,28 @@
         #resultsPage {
             position:relative;
             /*background-color:rgb(189,21,80);*/
-            background-color:#A7DBD8;
+            background-color:#64A6BD;
         }
 
         /* TOP POSTS PAGE */
 
         #topPostsPage {
             position:relative;
-            background-color:#69D2E7;
+            background-color:#D0E1D4;
         }
 
         /* DATA PAGE */
 
         #dataPage {
             position:relative;
-            background-color:#A7DBD8;
+            background-color:#64A6BD;
         }
 
         /* EMOTION PAGE */
 
         #emotionsPage {
             position:relative;
-            background-color:#69D2E7;
+            background-color:#D0E1D4;
         }
 
 
@@ -241,7 +241,7 @@
 
             border-width: 2px;
             border-style: solid;
-            border-color: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.0);
 
             color:#370784;
             font-family: Lato, Helvetica, sans-serif;
@@ -264,7 +264,7 @@
 
             border-width: 2px;
             border-style: solid;
-            border-color: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.0);
 
             color:#370784;
             font-family: Lato, Helvetica, sans-serif;
@@ -279,20 +279,21 @@
             top:5%;
             left:15%;
             right:15%;
+            margin-bottom: 5%;
 
             background-color: transparent;
             
             white-space: pre-wrap;
             display:table;
 
-            border-width: 2px;
+            border-width: 0px;
             border-style: solid;
             border-color: #7C77C3;
 
             color:#370784;
             font-family: Lato, Helvetica, sans-serif;
             font-weight:bold;
-            font-size:2.4em;
+            font-size:2em;
         }
 
         .bars{
@@ -332,7 +333,9 @@
 
         <a class="scroll" href="#dataPage"> back 1 </a> <br>
         <a class="scroll" href="#resultsPage"> forward </a>
-
+        <div id="TitleText">
+            <span style="display:table-cell; vertical-align:middle; text-align:center; padding-left:5%; padding-right:5%">Hello, my name is Soshi! let me see what you have to share:</span>
+        </div>
         <br> <br>
         <textarea id="postInputTextArea"></textarea>
 
@@ -401,17 +404,17 @@
         <div id="rightpart">
 
 
-            <div style="position:static; height:20%;">
+            <div style="position:static; height:20%;border-width: 2px;border-color:rgba(124,119,195,0.8);border-style: solid;">
                 <span style=" position:relative;" id="readabilityResult">Suggestion1</span>
             </div>
             <br></br>
 
-            <div style="position:static;height:20%;">
+            <div style="position:static;height:20%;border-width: 2px;border-color:rgba(124,119,195,0.8);border-style: solid;">
                 <span style=" position:relative;" id="powerWordsResult">Suggestion2</span>
             </div>
 
             <br></br>
-            <div style="position:static;height:20%;">
+            <div style="position:static;height:20%;border-width: 2px;border-color:rgba(124,119,195,0.8);border-style: solid;">
                 <span style=" position:relative;">Suggestion3</span>
             </div>
             <br></br>
