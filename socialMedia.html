@@ -328,10 +328,10 @@
 
         #chart {
           text-align: left;
-          box-shadow: 0px 2px 8px rgba(0,0,0,.2);
-          border: 1px solid #aaa;
+          box-shadow: 0px 2px 8px rgba(0,0,0,0);
+          border: 0px transparent #aaa;
           margin: 32px auto;
-          background: white;
+          background: transparent;
         }
 
         .trafficLight {
@@ -923,9 +923,9 @@
 
     $(function(){
       $('#chart').radarChart({
-        size: [500, 400],
+        size: [500, 500],
         step: 1,
-        title: "Emotional Radar Chart",
+        title: "Emotional Profile",
         values: {
           "Joy": 4.1,
           "Anger": 3.5,
@@ -948,7 +948,7 @@
             showAxisLabels: false,
             title: "Untitled",
             step: 1,
-            size: [300,300],
+            size: [600,600],
             values: {},
             color: [0,128,255]
           },settings);
@@ -994,7 +994,7 @@
           min = Math.floor(min);
           max = Math.ceil(max);
 
-          var spacing = 20;
+          var spacing = 30;
           
           for(var i = min; i <= max; i += this.settings.step) {
             this.cxt.beginPath();
@@ -1002,8 +1002,8 @@
                          this.height/2,
                          this.settings.step * spacing * i,
                          0, 2 * Math.PI, false);
-            this.cxt.strokeStyle = "#666";
-            this.cxt.fillStyle = "#444";
+            this.cxt.strokeStyle = "#370784";
+            this.cxt.fillStyle = "#370784";
             this.cxt.stroke();
             if (this.settings.showAxisLabels)
               this.cxt.fillText(i,this.width/2 + this.settings.step * spacing * i+4, this.height/2-2);
@@ -1044,12 +1044,12 @@
           
           this.cxt.lineTo(end.x, end.y);
           var grad = this.cxt.createLinearGradient(0, 0, 0, this.height);
-          grad.addColorStop(0,"rgba("+this.settings.color[0]+","+this.settings.color[1]+","+this.settings.color[2]+",0)");
-          grad.addColorStop(1,"rgba("+this.settings.color[0]+","+this.settings.color[1]+","+this.settings.color[2]+",1)");
+          //grad.addColorStop(0,"rgba("+this.settings.color[0]+","+this.settings.color[1]+","+this.settings.color[2]+",0)");
+          grad.addColorStop(1,"rgba("+this.settings.color[0]+","+this.settings.color[1]+","+this.settings.color[2]+",0.5)");
           this.cxt.fillStyle = grad;
           this.cxt.shadowBlur = 2;
-          this.cxt.shadowColor = "rgba(0, 0, 0, .2)";
-          this.cxt.stroke();
+          this.cxt.shadowColor = "rgba(0, 0, 0, 0.2)";
+          //this.cxt.stroke();
           this.cxt.fill();
           
           this.newCanvas('labels',1000);
@@ -1059,7 +1059,7 @@
             that.newCanvas('label-'+i, i * 250);
             that.cxt.fillStyle = "rgba(0,0,0,.8)";
             that.cxt.strokeStyle = "rgba(0,0,0,.5)";
-            that.cxt.font = "bold 12px Verdana";
+            that.cxt.font = "bold 16px Verdana";
             var dist = Math.min(spacing * val, size * spacing);
             var x = that.width / 2 + Math.cos((Math.PI * 2) * (i / size)) * spacing * val;
             var y = that.height / 2 + Math.sin((Math.PI * 2) * (i / size)) * spacing * val;
@@ -1095,7 +1095,7 @@
           
           
           this.newCanvas('title',1000);
-          this.cxt.font = "bold 24px Verdana";
+          this.cxt.font = "24px Verdana";
           this.cxt.fillText(this.settings.title, 10, 30); 
         }
         
