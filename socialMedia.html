@@ -231,7 +231,7 @@
 
             position:absolute;
             width:30%;
-            height:65%;
+            height:30%;
             margin-top:2%;
             margin-bottom: 5%;
             margin-right:5%;
@@ -337,8 +337,8 @@
         .trafficLight {
             position:relative;
             left:0%;
-            height:18%;
-            width:18%;
+            height:100%;
+            width:100%;
         }
 
         #seeMoreDataButton {
@@ -435,18 +435,21 @@
                 <div class="inneritem" id="emoticonsAndLinksBar"></div>
             </div> -->
 
-            <table style="width:100%">
+            <table  style="width:100%; height:100%; padding-bottom:30%;">
               <tr>
+                <td>Readability:</td>
                 <td><img src="img/HALF.png" class="trafficLight"></td>
-                <td>Readability</td>
+                
               </tr>
               <tr>
-                <td><img src="img/HALF.png" class="trafficLight"></td> 
                 <td>Impactful Words:</td>
+                <td><img src="img/HALF.png" class="trafficLight"></td> 
+                
               </tr>
               <tr>
-                <td><img src="img/HALF.png" class="trafficLight"></td>
                 <td>Links, Emoticons, and Punctuation:</td> 
+                <td><img src="img/HALF.png" class="trafficLight"></td>
+                
               </tr>
             </table>
 
@@ -887,15 +890,14 @@
       $('#chart').radarChart({
         size: [500, 400],
         step: 1,
-        title: "My Skills",
+        title: "Emotional Radar Chart",
         values: {
-          "JavaScript": 4.1,
-          "Node.js": 3.5,
-          "jQuery": 4,
-          "PHP": 3,
-          "C++": 2.5,
-          "Problem Solving": 3.5,
-          "DHTML": 4
+          "Joy": 4.1,
+          "Anger": 3.5,
+          "Fear": 4,
+          "Disgust": 3,
+          "Sadness": 3,
+
         },
         showAxisLabels: true
       });
