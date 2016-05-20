@@ -152,6 +152,15 @@
             overflow-y:auto;
         }
 
+        #trendsList {
+            position:absolute;
+            /*background-color:black;*/
+            width:90%;
+            left:0%;
+            overflow-y:auto;
+            height:87%;
+        }
+
         #trendingMessageContainer {
             position:absolute;
             width:30%;
@@ -182,6 +191,60 @@
             font-family: Lato, Helvetica, sans-serif;
             font-weight: bold;
 
+        }
+
+
+        /* TOP TWEETS PAGE */
+
+
+        #tweets {
+
+            position:relative;
+            width:70%;
+            height:65%;
+            top:15%;
+            bottom: 15%;
+            right:15%;
+            left:15%;
+            line-height: 200%;
+            margin-top: 32px;
+            background-color: transparent;
+            
+            white-space: pre-wrap;
+
+            display:table;
+
+            border-width: 2px;
+            border-style: solid;
+            border-color: #7C77C3;
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:1.2em;
+        }
+
+        #TitleText {
+            position:absolute;
+            width:70%;
+            height:15%;
+            top:5%;
+            left:15%;
+            right:15%;
+
+            background-color: transparent;
+            
+            white-space: pre-wrap;
+            display:table;
+
+            border-width: 2px;
+            border-style: solid;
+            border-color: #7C77C3;
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:2.4em;
         }
 
 
@@ -221,6 +284,8 @@
 
         <div id="resultsMessageContainer">
             <span style="display:table-cell; padding-left:5%; padding-right:5%; padding-top:5%">Here are the top Trends:</span>
+            <br>
+            <ul id="trendsList"></ul>
         </div>
 
         <div class="c100 p25 big dark resultsMetric" id="percent">
@@ -244,11 +309,21 @@
         <a class="scroll" href="#resultsPage"> back 1 </a> <br>
         <a class="scroll" href="#dataPage"> forward 1 </a>
 
+        <div id="TitleText">
+            <span style="display:table-cell; vertical-align:middle; text-align:center; padding-left:5%; padding-right:5%">Top tweets in your topic!</span>
+        </div>
+
+        <div id="tweets">
+        <span style=" vertical-align:center; padding-left:5%; padding-bottom:5%; padding-right:5%">"Tweet 1 ...."</span>
+    </br>
+        <span style=" vertical-align:center; padding-left:5%; padding-bottom:5%; padding-right:5%">"Tweet 2 ...."</span>
+        </div>
+
     </div>
 
     <div id="dataPage">
 
-        <a class="scroll" href="#dataPage"> back 1 </a> <br>
+        <a class="scroll" href="#topPostsPage"> back 1 </a> <br>
         <a class="scroll" href="#emotionsPage"> forward 1 </a>
 
     </div>
@@ -275,6 +350,9 @@
     // SETUP
 
     // FIREBASE
+    var rootRef = "https://sbio2016.firebaseio.com/";
+    var trendsRef = rootRef + "trending";
+    var trendsFirebase = new Firebase(trendsRef);
     
 
     // PAGES
@@ -393,6 +471,21 @@
 
 
     // Some FIREBASE STUFF
+    setTimeout("getTrends()", 1000);
+    function getTrends() {
+        trendsFirebase.once("value", function(snapshot) {
+            // alert(JSON.stringify(snapshot.val(), null, 2));
+            var trends = snapshot.val();
+            for (var ndx in trends) {
+                var trend = trends[ndx].name;
+                var volume = trends[ndx].tweet_volume;
+                var link = trends[ndx].url
+                var str = "Trend: \"" + "<a target='blank' href='" + link + "'>" + trend + "</a>"+ "\"\nTweet volume: " + volume;
+                $("#trendsList").append("<li>" + str+"</li>" + "<br>");
+
+            }
+        });
+    }
 
 
 </script>
