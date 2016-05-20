@@ -156,7 +156,7 @@
             right:15%;
             left:15%;
             line-height: 200%;
-            margin-top: 32px;
+            margin-top: 10px;
             background-color: transparent;
             
             white-space: pre-wrap;
@@ -166,6 +166,28 @@
             border-width: 2px;
             border-style: solid;
             border-color: #7C77C3;
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:1.2em;
+        }
+
+        #stats {
+
+            position:relative;
+            width:50%;
+            height:65%;
+            margin-top:10%;
+            bottom: 15%;
+            right:15%;
+            left:15%;
+
+            background-color: transparent;
+
+            border-width: 2px;
+            border-style: solid;
+            border-color: rgba(255,255,255,0.1);
 
             color:#370784;
             font-family: Lato, Helvetica, sans-serif;
@@ -205,7 +227,29 @@
 
         }
 
+        .bars{
 
+            position:relative;
+            width:50%;
+            height:10%;
+            margin-top: 4%;
+            bottom: 5%;
+            margin-left: 2%; 
+            border-width: 2px;
+            bordercolor:#7c77c3;
+            border-style: solid;
+
+
+        }
+
+        .inneritem{
+
+            background-color: #7c77c3;
+            height:100%;
+            width:40%;
+            left:0%;
+
+        }
 
     </style>
 
@@ -272,14 +316,26 @@
         </div>
 
     </div>
-
+    <!-- DATA PAGE -->   
     <div id="dataPage">
 
-        <a class="scroll" href="#dataPage"> back 1 </a> <br>
-        <a class="scroll" href="#emotionsPage"> forward 1 </a>
+    <a class="scroll" href="#dataPage"> back 1 </a> <br>
+    <a class="scroll" href="#emotionsPage"> forward 1 </a>
 
+
+    <div id="stats">
+        <div class= "bars" id="bar1">
+            <div class="inneritem"></div>
+        </div>
+        <div class= "bars" id="bar2">
+            <div class="inneritem"></div>
+        </div>
+        <div class= "bars" id="bar3">
+            <div class="inneritem"></div>
+        </div>
     </div>
 
+</div>
 
     <div id="emotionsPage">
 
