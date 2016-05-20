@@ -20,7 +20,7 @@
 
         body {
             /*background-color:#ba9b03;*/
-            background-color:#c490de;
+            background-color:#D0E1D4;
             /*background-color:#f0d8f6;*/
             /*background-color:#f5ebfa;*/
             height:100%;
@@ -366,10 +366,10 @@
 
 
 
-        body {
+/*        body {
           background: #efefef;
         }
-
+*/
         #chart {
           text-align: left;
           box-shadow: 0px 2px 8px rgba(0,0,0,0);
@@ -420,7 +420,7 @@
             top:80%;
             width:20%;
             height:10%;
-            left:58%;
+            left:53%;
             background-color:#A7DBD8;
             color:#000000;
             font-family: Lato, Helvetica, sans-serif;
@@ -434,7 +434,7 @@
             top:80%;
             width:20%;
             height:10%;
-            left:33%;
+            left:28%;
             background-color:#A7DBD8;
             color:#000000;
             font-family: Lato, Helvetica, sans-serif;
@@ -453,18 +453,24 @@
 
         .popup {
             position:fixed;
-            width:45%;
-            height:80%;
-            right:0%;
-            top:0%;
+            width:30%;
+            height:65%;
+            top:10%;
+            left:55%;
             /*background-color:#64A6BD;*/
             background-color: transparent;
             z-index:9900;
             display: none;
             text-align: center;
 
-            border-radius:10px;
+            /*border-radius:10px;*/
+            /*color:#7C77C3;*/
 
+            border-width: 2px;
+            border-style: solid;
+            border-color: #7C77C3;
+
+            color:#370784;
 
             font-family: Lato, Helvetica, sans-serif;
             font-weight:bold;
@@ -491,10 +497,10 @@
     <!-- JOURNAL ENTRY PAGE -->
     <div id="inputPage">
 
-        <a class="scroll" href="#dataPage"> back 1 </a> <br>
-        <a class="scroll" href="#resultsPage"> forward </a>
+        <!-- <a class="scroll" href="#dataPage"> back 1 </a> <br> -->
+        <!-- <a class="scroll" href="#resultsPage"> forward </a> -->
         <div id="TitleText">
-            <span style="display:table-cell; vertical-align:middle; text-align:center; padding-left:5%; padding-right:5%">Hello, my name is Soshi! let me see what you want to share:</span>
+            <span style="display:table-cell; vertical-align:middle; text-align:center; padding-left:5%; padding-right:5%">Hello, my name is Soshi! Let me see what you want to share:</span>
         </div>
         <br> <br>
         <textarea id="postInputTextArea"></textarea>
@@ -510,8 +516,8 @@
     <!-- ENTRY RESULTS -->
     <div id="resultsPage">
 
-        <a class="scroll" href="#inputPage"> back 1 </a> <br>
-        <a class="scroll" href="#dataPage"> forward 1 </a> <br>
+        <!-- <a class="scroll" href="#inputPage"> back 1 </a> <br> -->
+        <!-- <a class="scroll" href="#dataPage"> forward 1 </a> <br> -->
 
         <div id="trendingMessageContainer">
              <span style="display:table-cell; vertical-align:middle; padding-left:5%; padding-right:5%" id="isTrendingText"></span>
@@ -542,8 +548,11 @@
 
     <div id="dataPage">
 
-        <a class="scroll" href="#resultsPage"> back 1 </a> <br>
-        <a class="scroll" href="#emotionsPage"> forward 1 </a>
+        <!-- <a class="scroll" href="#resultsPage"> back 1 </a> <br> -->
+        <!-- <a class="scroll" href="#emotionsPage"> forward 1 </a> -->
+        <br>
+        <br>
+        <br>
 
 
         <div id="leftpart">
@@ -623,17 +632,18 @@
 
     <div id="emotionsPage">
 
-        <a class="scroll" href="#dataPage"> back 1 </a> <br>
-        <a class="scroll" href="#topPostsPage"> forward 1 </a>
+        <!-- <a class="scroll" href="#dataPage"> back 1 </a> <br> -->
+        <!-- <a class="scroll" href="#topPostsPage"> forward 1 </a> -->
 <!--         <div id="radarText">
             
         </div> -->
 
-
+        <!-- <div id="chartHolder"> -->
         <div id="chart">        
         </div>
+    <!-- </div> -->
         
-        <a class="scroll" href="#dataPage"><button id="newEntryButton"> Try a new post! </button></a>
+        <a class="scroll" href="#inputPage"><button id="newEntryButton"> Try a new post! </button></a>
         <a class="scroll" href="#resultsPage"><button id="backToImpactScoreButton">Back to score!</button></a>
         
     </div>
@@ -1400,6 +1410,18 @@
         $("#emotionDetailsPopup").show();
         $("#emotionDetailsPopup").css("display","table");
     }
+
+    $("#newEntryButton").click(function(event){  
+        // alert("ENTERED")   
+       $("#emotionDetailsPopup").css("display","none");
+       viralityScore = 0;
+       $('#chart').remove()
+       $("#emotionsPage").prepend('<div id="chart"></div>');
+    });
+
+    $("#backToImpactScoreButton").click(function(event){
+        $("#emotionDetailsPopup").css("display","none");
+    });
 
 
 </script>
