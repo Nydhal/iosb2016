@@ -184,10 +184,34 @@
 
         }
 
+        #viralityLabel {
+            position:absolute;
+            width:30%;
+            height:10%;
+            top:5%;
+            left:15.5%;
+            background-color: transparent;
+            /*border-radius:3co2px;*/
+            white-space: pre-wrap;
+            display:table;
+
+            border-width: 2px;
+            border-style: solid;
+            /*border-color: #7C77C3;*/
+            border-color:transparent;
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:2em;
+            text-align: center;
+
+        }
+
         .resultsMetric {
             position:absolute;
             left:15%;
-            top:10%;
+            top:15%;
             font-family: Lato, Helvetica, sans-serif;
             font-weight: bold;
 
@@ -261,6 +285,26 @@
             margin-left:60%;
 
             background-color: transparent;
+
+            border-width: 2px;
+            border-style: solid;
+            border-color: rgba(255,255,255,0.0);
+
+            color:#370784;
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:1.2em;
+        }
+
+        #radarText {
+            position:relative;
+            width:30%;
+            height:80%;
+            margin-top:0%;
+            margin-bottom:5%;
+            right:0%;
+
+            background-color: black;
 
             border-width: 2px;
             border-style: solid;
@@ -370,6 +414,34 @@
             font-weight: bold;
         }
 
+        #newEntryButton {
+            position:absolute;
+            border-radius:32px;
+            top:80%;
+            width:20%;
+            height:10%;
+            left:58%;
+            background-color:#A7DBD8;
+            color:#000000;
+            font-family: Lato, Helvetica, sans-serif;
+            font-size:2em;
+            font-weight: bold;
+        }
+
+        #backToImpactScoreButton {
+            position:absolute;
+            border-radius:32px;
+            top:80%;
+            width:20%;
+            height:10%;
+            left:33%;
+            background-color:#A7DBD8;
+            color:#000000;
+            font-family: Lato, Helvetica, sans-serif;
+            font-size:2em;
+            font-weight: bold;
+        }
+
 
         /* http://stackoverflow.com/questions/351058/space-between-two-rows-in-a-table */
         /* Apply padding to td elements that are direct children of the tr element. */
@@ -379,10 +451,41 @@
         }
 
 
+        .popup {
+            position:fixed;
+            width:45%;
+            height:80%;
+            right:0%;
+            top:0%;
+            /*background-color:#64A6BD;*/
+            background-color: transparent;
+            z-index:9900;
+            display: none;
+            text-align: center;
+
+            border-radius:10px;
+
+
+            font-family: Lato, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:1.2em;
+            /*background-color: black;*/
+        }
+
+
     </style>
 
 
 <body>
+
+
+    <!-- POPUP -->
+    <div class="popup" id="emotionDetailsPopup">
+        <span style="display:table-cell; vertical-align:middle; text-align:center; padding-left:5%; padding-right:5%" id="emotionDetailsSpan"> </span>
+        
+        
+
+    </div>
 
 
     <!-- JOURNAL ENTRY PAGE -->
@@ -415,11 +518,12 @@
         </div>
 
         <div id="resultsMessageContainer">
-            <span style="display:table-cell; padding-left:5%; padding-right:5%; padding-top:5%">Here are the top Trends:</span>
+            <span style="display:table-cell; padding-left:5%; padding-right:5%; padding-top:5%">Here are the top trends in your area:</span>
             <br>
             <ul id="trendsList"></ul>
         </div>
 
+        <div id="viralityLabel"> <span style="display:table-cell; padding-left:5%; padding-right:5%; padding-top:5%">Impact Score</span> </div>
         <div class="c100 big dark resultsMetric" id="percent">
           <span id="viralityPercentText">25%</span>
           <div class="slice">
@@ -521,13 +625,16 @@
 
         <a class="scroll" href="#dataPage"> back 1 </a> <br>
         <a class="scroll" href="#topPostsPage"> forward 1 </a>
-        <div id="chart">        <div id="rightpart">
-            <div style="position:static; height:20%;border-width: 2px;border-color:rgba(124,119,195,0.8);border-style: solid;">
-                <span style=" position:relative;" id="readabilityResult">Suggestion1</span>
-            </div>
-        </div></div>
+<!--         <div id="radarText">
+            
+        </div> -->
 
 
+        <div id="chart">        
+        </div>
+        
+        <a class="scroll" href="#dataPage"><button id="newEntryButton"> Try a new post! </button></a>
+        <a class="scroll" href="#resultsPage"><button id="backToImpactScoreButton">Back to score!</button></a>
         
     </div>
 
@@ -535,7 +642,7 @@
 
 
 
-
+<!-- 
 
     <div id="topPostsPage">
 
@@ -552,7 +659,7 @@
         <span style=" vertical-align:center; padding-left:5%; padding-bottom:5%; padding-right:5%">"Tweet 2 ...."</span>
         </div>
 
-    </div>
+    </div> -->
 
 
 
@@ -690,10 +797,10 @@
 
     function moveToResultsPage() {
         if (checkForTrends()) {
-            $("#isTrendingText").html("Your post is: <span style=\"color:green; font-weight:bold;\"> trending! </span>");
+            $("#isTrendingText").html("Your post is: <span style=\"color:green; font-family:helvetica;font-weight:bold;\"> trending! </span>");
             isTrending = true;
         } else {
-            $("#isTrendingText").html("Your post is: <span style=\"color:red; font-weight:bold;\"> not trending. </span>");
+            $("#isTrendingText").html("Your post is: <span style=\"color:#993366; font-family:helvetica;font-weight:bold;\"> not trending. </span>");
             isTrending = false;
         }
         coefficients = returnCoefficients(currInput);
@@ -722,8 +829,10 @@
         setTimeout("smoothRotateLeft(0, 2)", 1020);
         setTimeout("smoothRotateLeft(0, 2)", 1180);
         setTimeout("smoothRotateRight(0, 2)", 1340);
-        setTimeout("smoothRotateRight(0, 2)", 860);
-        setTimeout("smoothRotateLeft(0, 2)", 1020);
+        setTimeout("smoothRotateRight(0, 2)", 1500);
+        setTimeout("smoothRotateLeft(0, 2)", 1660);
+        setTimeout("smoothRotateLeft(0, 2)", 1820);
+        setTimeout("smoothRotateRight(0, 2)", 1980);
     }
 
     function smoothRotateLeft(deg, amt) {
@@ -857,7 +966,7 @@
         // alert(viralityScore);
 
         $("#percent").addClass("p" + rounded);
-        $("#viralityPercentText").text(viralityScore.toFixed(2) + "%")
+        $("#viralityPercentText").text(viralityScore.toFixed(1) + "%")
     }
 
     function setBarValues() {
@@ -1181,6 +1290,22 @@
         coefficients["EmotionScore"] = diffSquared * 20;
 
 
+        var topStr = "Your top emotion was " + keysSorted[keysSorted.length - 1] + " at a ranking of " + (parseFloat(currPostEmotions[keysSorted[keysSorted.length - 1]])*100).toFixed(2) + "%.";
+        var midStr = "Your other emotions averaged a value of " + parseFloat(mean*100).toFixed(2) + "%.";
+        var bottomStr = "";
+        if (diffSquared <= .25) {
+            bottomStr = "I'm not sure what your emotional focus is. Try rewriting your post and focusing on one or two emotions!";
+        }
+        else if (diffSquared <= 0.65) {
+            bottomStr = "Your post is pretty focused, but maybe you could increase your main emotion just a bit more. It will help your audience understand!";
+        }
+        else {
+            bottomStr = "Your post is very emotionally focused. Great job!";
+        }
+        var htmlStr = topStr + "<br><br>" + midStr + "<br><br>" + bottomStr;
+
+        $("#emotionDetailsSpan").html(htmlStr);
+
         radar();
         
     }
@@ -1201,6 +1326,8 @@
             currPostEmotions = processTonesIntoData(postData.tone_categories[0].tones);
             currPostData = processPostData(postData);
             console.log(currPostData)
+
+
 
             calculateEmotionalWeight();
         });
@@ -1263,6 +1390,17 @@
         return returnDict;
 
     }
+
+    $("#seeSuggestionsButton").click(function(event){  
+        // alert("ENTERED")   
+       setTimeout("showEmotionDetails()", 500);
+    });
+
+    function showEmotionDetails() {
+        $("#emotionDetailsPopup").show();
+        $("#emotionDetailsPopup").css("display","table");
+    }
+
 
 </script>
 
