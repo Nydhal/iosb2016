@@ -950,25 +950,36 @@
     }
 
 
+    function radar() {
+        $('#chart').radarChart({
+          size: [500, 500],
+          step: 1,
+          title: "Emotional Profile",
+          values: currPostEmotionsPercent,
+          showAxisLabels: true
+        });
+    }
 
 
+    // $(function(){
+    //   $('#chart').radarChart({
+    //     size: [500, 500],
+    //     step: 1,
+    //     title: "Emotional Profile",
+    //     values: {
+    //       "Joy": 4.1,
+    //       "Anger": 3.5,
+    //       "Fear": 4,
+    //       "Disgust": 3,
+    //       "Sadness": 3,
 
-    $(function(){
-      $('#chart').radarChart({
-        size: [500, 500],
-        step: 1,
-        title: "Emotional Profile",
-        values: {
-          "Joy": 4.1,
-          "Anger": 3.5,
-          "Fear": 4,
-          "Disgust": 3,
-          "Sadness": 3,
+    //     },
+    //     // currPostEmotionsPercent,
+    //     showAxisLabels: true
+    //   });
+    // });
 
-        },
-        showAxisLabels: true
-      });
-    });
+
 
     (function($) {
       
@@ -1151,6 +1162,7 @@
     var currPostWriting = {};
     var currPostSocial = {};
     var currPostEmotionData;
+    var currPostEmotionsPercent = {};
 
     function calculateEmotionalWeight() {
         var keysSorted = Object.keys(currPostEmotions).sort(function(a,b){return currPostEmotions[a]-currPostEmotions[b]});
@@ -1168,6 +1180,8 @@
         console.log("DIFF SQUARED: ", diffSquared);
         coefficients["EmotionScore"] = diffSquared * 20;
 
+
+        radar();
         
     }
 
@@ -1214,10 +1228,15 @@
 
         // emotional tones
         returnDict["Anger"] = emotional_tones[0].score;
+        currPostEmotionsPercent["Anger"] = emotional_tones[0].score * 5;
         returnDict["Disgust"] = emotional_tones[1].score;
+        currPostEmotionsPercent["Disgust"] = emotional_tones[1].score * 5;
         returnDict["Fear"] = emotional_tones[2].score;
+        currPostEmotionsPercent["Fear"] = emotional_tones[2].score * 5;
         returnDict["Joy"] = emotional_tones[3].score;
+        currPostEmotionsPercent["Joy"] = emotional_tones[3].score * 5;
         returnDict["Sadness"] = emotional_tones[4].score;
+        currPostEmotionsPercent["Sadness"] = emotional_tones[4].score * 5;
 
         // writing tones
         returnDict["Analytical"] = writing_tones[0].score;
