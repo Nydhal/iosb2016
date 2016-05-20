@@ -343,6 +343,7 @@
 <script src="jquery.min.js"></script>
 <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 <script src="spin.min.js"></script>
+<script src="jquery.rotate.1-1.js"></script>
 <!-- <script src="./bundle.js"></script> -->
 
 <script>
@@ -357,6 +358,9 @@
 
     // PAGES
     var pageIDs = ["#inputPage", "#resultsPage", "#topPostsPage", "#dataPage", "#emotionsPage"];
+
+    // VARIABLES
+    var currInput = "";
 
    // Smooth scroll
     jQuery(document).ready(function($) {
@@ -432,8 +436,9 @@
     });
 
     function showResults() {
-        // // Get the data and parse it
-
+        // Get the data and parse it
+        currInput = $("#postInputTextArea").val();
+        // alert(currInput);
 
         // $('#overlay').fadeOut( 400 );
         // var keywordsFound = checkForKeywords();
@@ -443,10 +448,43 @@
         // if (!keywordsFound) {
         //     setTimeout("moveToResultsScreen()", 400);
         // }
+        logoWiggle();
 
-        $('html,body').animate({scrollTop:$("#resultsPage").offset().top}, 500);
+
+        setTimeout("moveToResultsPage()", 860);
     
     }
+
+    function moveToResultsPage() {
+        $('html,body').animate({scrollTop:$("#resultsPage").offset().top}, 500);
+    }
+
+    function logoWiggle() {
+        smoothRotateLeft(0, 2);
+        setTimeout("smoothRotateRight(0, 2)", 160);
+        setTimeout("smoothRotateRight(0, 2)", 320);
+        setTimeout("smoothRotateLeft(0, 2)", 480);
+        setTimeout("smoothRotateLeft(0, 2)", 640);
+        setTimeout("smoothRotateRight(0, 2)", 700);
+    }
+
+    function smoothRotateLeft(deg, amt) {
+        $("#logo").rotateLeft(amt);
+        if (deg < 20) {
+            deg = deg + 1;
+            setTimeout("smoothRotateLeft(" + deg + "," + amt + ")", 2);
+            console.log("left: ", amt, " deg: ",deg);
+        }
+    }
+    function smoothRotateRight(deg, amt) {
+        $("#logo").rotateRight(amt);
+        if (deg < 20) {
+            deg = deg + 1;
+            setTimeout("smoothRotateRight(" + deg + "," + amt + ")", 2);
+            console.log("right: ", amt, " deg: ",deg);
+        }
+    }
+
 
     function moveToResultsScreen() {
         // // set bar graph
