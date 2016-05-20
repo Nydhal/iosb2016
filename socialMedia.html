@@ -43,6 +43,14 @@
         /* Remove blue outline from buttons */
         button:focus {outline:0;}
 
+        /* remove outline on input forms */
+        input:focus,
+        select:focus,
+        textarea:focus,
+        button:focus {
+            outline: none;
+        }
+
 
 
         /* PAGES (For background color) */
@@ -447,7 +455,7 @@
         /* Apply padding to td elements that are direct children of the tr element. */
         tr.spaceUnder > td
         {
-          padding-bottom: 14%;
+          padding-bottom: 22%;
         }
 
 
@@ -960,7 +968,7 @@
     function setViralityScore() {
         // alert(viralityScore);
         if (isTrending) {
-            viralityScore += 20;
+            viralityScore += 25;
         }
         // console.log("\n\n\n\n\n" + coefficients + "\n\n\n\n\n\n");
         viralityScore += coefficients["FKGradeScore"];
@@ -1297,7 +1305,7 @@
         console.log("MEAN: ",mean);
         console.log("DIFF: ", diff);
         console.log("DIFF SQUARED: ", diffSquared);
-        coefficients["EmotionScore"] = diffSquared * 20;
+        coefficients["EmotionScore"] = diffSquared * 25;
 
 
         var topStr = "Your top emotion was " + keysSorted[keysSorted.length - 1] + " at a ranking of " + (parseFloat(currPostEmotions[keysSorted[keysSorted.length - 1]])*100).toFixed(2) + "%.";
